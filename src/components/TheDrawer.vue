@@ -2,7 +2,7 @@
 import { Drawer, DrawerContent } from "@progress/kendo-vue-layout";
 import { useLocalStorage } from "@vueuse/core";
 import { useRouter } from "vue-router";
-import { computed, ref } from "vue";
+import { computed } from "vue";
 
 const router = useRouter();
 
@@ -42,6 +42,7 @@ const items = computed(() => [
     },
   },
 ]);
+
 function onSelect({ itemIndex }: { itemIndex: number }) {
   const item = items.value[itemIndex];
   if (item.data.path) router.push(item.data.path);
@@ -51,7 +52,7 @@ function onSelect({ itemIndex }: { itemIndex: number }) {
 <template>
   <Drawer
     class="h-[90vh]"
-    :expanded="expanded"
+    :expanded="expanded.value"
     position="start"
     mode="push"
     :mini="true"
