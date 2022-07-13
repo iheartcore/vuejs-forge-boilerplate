@@ -33,7 +33,7 @@ function createBoard() {
 </script>
 
 <template>
-  <AppPageHeading>Boards</AppPageHeading>
+  <AppPageHeader>Boards</AppPageHeader>
   <div class="flex">
     <BoardCard v-for="board in boards" :key="board.id" :board="board" />
     <button class="text-gray-500" @click="createBoard()">

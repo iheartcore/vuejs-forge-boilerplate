@@ -1,3 +1,3 @@
 <template>
-  <AppPageHeading>Templates</AppPageHeading>
+  <AppPageHeader>Templates</AppPageHeader>
 </template>

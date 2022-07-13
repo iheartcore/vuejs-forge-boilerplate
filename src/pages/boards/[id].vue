@@ -17,8 +17,8 @@ const board = ref<Partial<Board>>({
 
 const tasks = ref<Partial<Task>[]>([
   { id: "1", title: "Make toast" },
-  { id: "1", title: "Make toast", dueAt: new Date("2022/8/12") },
   { id: "2", title: "Clean room" },
+  { id: "3", title: "Plan trip", dueAt: new Date("2022/8/12") },
 ]);
 function addTask(task: Task) {
   return new Promise((resolve, reject) => {

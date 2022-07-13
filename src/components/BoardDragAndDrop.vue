@@ -5,6 +5,7 @@ import type { Board, Column, Task } from "@/types";
 import { v4 as uuidv4 } from "uuid";
 import draggable from "vuedraggable";
 import TaskCard from "./TaskCard.vue";
+import TaskCreator from "./TaskCreator.vue";
 import { useAlerts } from "@/stores/Alerts";
 const alerts = useAlerts();
 // props

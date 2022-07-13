@@ -14,6 +14,7 @@ const props = defineProps<{
 }>();
 const date = useDateFormat(props.task.dueAt, "MM/DD");
 </script>
+
 <template>
   <RouterLink :to="`/boards/${$route.params.id}/tasks/${task.id}`">
     <Card>
@@ -32,7 +33,7 @@ const date = useDateFormat(props.task.dueAt, "MM/DD");
 
         <CardSubtitle>
           <chip
-            v-if="task.dueAt"
+            v-if="props.task.dueAt"
             :text="date"
             value="chip"
             rounded="full"
