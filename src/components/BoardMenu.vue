@@ -34,6 +34,15 @@ errorAttachingImage(() => {
 onImageAttached((result) => {
   emit("imageUpload", result.data.boardUpdate.image);
 });
+
+const fakeLabelData = reactive({
+  existingLabels: [
+    { label: "High Priority", color: "red", id: "1" },
+    { label: "Medium Priority", color: "orange", id: "2" },
+    { label: "Meh", color: "yellow", id: "3" },
+  ],
+  selectedLabels: [{ label: "High Priority", color: "red", id: "1" }],
+});
 </script>
 
 <template>
@@ -78,6 +87,18 @@ onImageAttached((result) => {
                   imageId: $event.id,
                 })
               "
+            />
+          </li>
+          <li>
+            <pre>
+               {{ fakeLabelData.existingLabels }}
+             </pre
+            >
+            <AppLabelsPicker
+              :labels="fakeLabelData.existingLabels"
+              :selected="fakeLabelData.selectedLabels"
+              @labelsUpdate="fakeLabelData.existingLabels = $event"
+              @selectionUpdate="fakeLabelData.selectedLabels = $event"
             />
           </li>
         </ul>
