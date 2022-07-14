@@ -71,9 +71,9 @@ const newBoardTemplate = {
   title: "My New Board",
   order: JSON.stringify([
     {
-      uid: "1",
+      id: "1",
       title: "Backlog",
-      taskUids: [],
+      taskIds: [],
     },
   ]),
 };

@@ -1,18 +1,39 @@
 <script setup lang="ts">
 import { Popup as KPopup } from "@progress/kendo-vue-popup";
 import { Button as KButton } from "@progress/kendo-vue-buttons";
-import { ref } from "vue";
-import type { Board } from "@/types";
+import { ref, reactive } from "vue";
+import type { Board, Label } from "@/types";
+import { onClickOutside } from "@vueuse/core";
+import { useMutation } from "@vue/apollo-composable";
+import { ATTACH_IMAGE_TO_BOARD_MUTATION } from "@/graphql/queries/boards";
+import { useAlerts } from "@/stores/Alerts";
 
+const alerts = useAlerts();
 const props = defineProps<{
   board: Board;
 }>();
-
 const show = ref(false);
 const menu = ref(null);
-defineEmits<{
+onClickOutside(menu, () => setTimeout(() => (show.value = false), 2));
+const emit = defineEmits<{
   (e: "deleteBoard", payload: null): void;
+  (e: "imageUpload", payload: { id: string }): void;
 }>();
+
+const {
+  mutate: attachImageToBoard,
+  onError: errorAttachingImage,
+  onDone: onImageAttached,
+  loading: imageLoading,
+} = useMutation(ATTACH_IMAGE_TO_BOARD_MUTATION);
+
+errorAttachingImage(() => {
+  alerts.error("Error setting board image");
+});
+
+onImageAttached((result) => {
+  emit("imageUpload", result.data.boardUpdate.image);
+});
 </script>
 
 <template>
@@ -44,6 +65,20 @@ defineEmits<{
               <span class="k-icon k-i-delete"></span>
               Delete Board
             </button>
+          </li>
+          <li>
+            <strong>Board Image</strong>
+            <AppImageDropzone
+              class="aspect-video w-56"
+              :image="board.image?.downloadUrl"
+              :loading="imageLoading"
+              @upload="
+                attachImageToBoard({
+                  id: board.id,
+                  imageId: $event.id,
+                })
+              "
+            />
           </li>
         </ul>
       </div>

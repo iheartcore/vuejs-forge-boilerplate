@@ -8,20 +8,28 @@ import TaskCard from "./TaskCard.vue";
 import TaskCreator from "./TaskCreator.vue";
 import { useAlerts } from "@/stores/Alerts";
 const alerts = useAlerts();
+
 // props
 const props = defineProps<{
   board: Board;
   tasks: Task[];
   addTask(task: Partial<Task>): Promise<Task>;
 }>();
+
 // events
 const emit = defineEmits<{
   (e: "update", payload: Partial<Board>): void;
 }>();
+
 // local data
 const tasks = reactive(cloneDeep(props.tasks));
 const board = reactive(cloneDeep(props.board));
-const columns = reactive<Column[]>(JSON.parse(board.order as string));
+const columns = reactive<Column[]>(
+  typeof board.order === "string"
+    ? JSON.parse(board.order as string)
+    : board.order
+);
+
 // methods
 function addColumn() {
   columns.push({
@@ -30,17 +38,20 @@ function addColumn() {
     taskIds: [],
   });
 }
+
 async function addTask({ column, title }: { column: Column; title: string }) {
   const newTask = { title };
   try {
     const savedTask = await props.addTask(newTask);
     tasks.push({ ...savedTask });
+    console.log({ ...column, ...tasks });
     column.taskIds.push(savedTask.id);
   } catch (error) {
     console.log(error);
     alerts.error("Error creating task!");
   }
 }
+
 watch(columns, () => {
   emit(
     "update",
