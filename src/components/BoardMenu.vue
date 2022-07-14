@@ -90,10 +90,6 @@ const fakeLabelData = reactive({
             />
           </li>
           <li>
-            <pre>
-               {{ fakeLabelData.existingLabels }}
-             </pre
-            >
             <AppLabelsPicker
               :labels="fakeLabelData.existingLabels"
               :selected="fakeLabelData.selectedLabels"
